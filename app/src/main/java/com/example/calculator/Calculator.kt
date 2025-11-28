@@ -1,6 +1,7 @@
 package com.example.calculator
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.theme.CalculatorTheme
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Preview
 @Composable
@@ -35,7 +38,10 @@ fun CalculatorPreview() {
 @Composable
 fun Calculator(
     modifier: Modifier = Modifier,
+    viewModel: CalculatorViewModel = viewModel(),
 ) {
+    val state = viewModel.state.collectAsState()
+
     Column(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -51,16 +57,14 @@ fun Calculator(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "45x8",
-                style = TextStyle(
+                text = state.value.example, style = TextStyle(
                     fontSize = 36.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
             Text(
-                text = "360",
-                style = TextStyle(
+                text = state.value.answer, style = TextStyle(
                     fontSize = 17.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -69,25 +73,84 @@ fun Calculator(
         }
 
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 24.dp),
+        ) {
 
-        Row1()
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.SQRT))
+                    }, text = "√", style = TextStyle(
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+
+
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PI))
+                    }, text = "π", style = TextStyle(
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+
+
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.POWER))
+                    }, text = "^", style = TextStyle(
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+
+
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.FACTORIAL))
+                    }, text = "!", style = TextStyle(
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+
+        }
 
         Row(
-            modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.secondary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Clear)
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "AC",
-                    style = TextStyle(
+                    text = "AC", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -101,12 +164,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PARENTHESIS))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "(  )",
-                    style = TextStyle(
+                    text = "(  )", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -119,12 +183,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PERCENT))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "%",
-                    style = TextStyle(
+                    text = "%", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -137,12 +202,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIVIDE))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "÷",
-                    style = TextStyle(
+                    text = "÷", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -154,21 +220,20 @@ fun Calculator(
 
 
         Row(
-            modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_7))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "7",
-                    style = TextStyle(
+                    text = "7", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -182,12 +247,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_8))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "8",
-                    style = TextStyle(
+                    text = "8", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -200,12 +266,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_9))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "9",
-                    style = TextStyle(
+                    text = "9", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -218,12 +285,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.MULTIPLY))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "X",
-                    style = TextStyle(
+                    text = "X", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -235,21 +303,20 @@ fun Calculator(
 
 
         Row(
-            modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_4))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "4",
-                    style = TextStyle(
+                    text = "4", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -263,12 +330,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_5))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "5",
-                    style = TextStyle(
+                    text = "5", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -281,12 +349,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_6))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "6",
-                    style = TextStyle(
+                    text = "6", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -299,12 +368,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIVIDE))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "-",
-                    style = TextStyle(
+                    text = "-", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -315,21 +385,20 @@ fun Calculator(
         }
 
         Row(
-            modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_1))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "1",
-                    style = TextStyle(
+                    text = "1", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -343,12 +412,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_2))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "2",
-                    style = TextStyle(
+                    text = "2", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -361,12 +431,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_3))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "3",
-                    style = TextStyle(
+                    text = "3", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -379,12 +450,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.ADD))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "+",
-                    style = TextStyle(
+                    text = "+", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -396,21 +468,20 @@ fun Calculator(
 
 
         Row(
-            modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Box(
                 modifier = Modifier
                     .weight(2f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(2f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(2f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_0))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "0",
-                    style = TextStyle(
+                    text = "0", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -425,12 +496,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DOT))
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = ",",
-                    style = TextStyle(
+                    text = ",", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -443,12 +515,13 @@ fun Calculator(
                     .weight(1f)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Solution)
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "=",
-                    style = TextStyle(
+                    text = "=", style = TextStyle(
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -460,63 +533,8 @@ fun Calculator(
 
 
     }
+
 }
 
-@Composable
-fun Row1() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 24.dp),
-    ) {
 
-        Text(
-            modifier = Modifier.weight(1f),
-            text = "√",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        )
-
-
-        Text(
-            modifier = Modifier.weight(1f),
-            text = "π",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        )
-
-
-        Text(
-            modifier = Modifier.weight(1f),
-            text = "^",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        )
-
-
-        Text(
-            modifier = Modifier.weight(1f),
-            text = "!",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        )
-
-    }
-}
 
