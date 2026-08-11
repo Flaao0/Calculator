@@ -1,6 +1,8 @@
 package com.example.calculator
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,10 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.theme.CalculatorTheme
 
+val viewModel = CalculatorViewModel()
+
 @Composable
 fun Calculator(
     modifier: Modifier = Modifier
 ) {
+
+    val state = viewModel.state
 
     Column(
         Modifier.fillMaxSize()
@@ -35,11 +41,17 @@ fun Calculator(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(bottomEnd = 40.dp, bottomStart = 40.dp, topStart = 0.dp, topEnd = 0.dp))
+                .clip(
+                    RoundedCornerShape(
+                        bottomEnd = 40.dp,
+                        bottomStart = 40.dp,
+                        topStart = 0.dp,
+                        topEnd = 0.dp
+                    )
+                )
                 .background(MaterialTheme.colorScheme.primaryContainer)
                 .weight(1f)
-                .padding(bottom = 16.dp, end = 40.dp, start = 40.dp)
-                ,
+                .padding(bottom = 16.dp, end = 40.dp, start = 40.dp),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End
         ) {
@@ -47,13 +59,13 @@ fun Calculator(
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = 36.sp,
                 fontWeight = FontWeight.SemiBold,
-                text = "1488"
+                text = state.value.example
             )
             Text(
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.SemiBold,
-                text = "322"
+                text = state.value.result
             )
         }
 
@@ -106,7 +118,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.secondary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand("AC")
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -298,7 +313,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand("1")
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -313,7 +331,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand("2")
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
