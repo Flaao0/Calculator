@@ -1,21 +1,26 @@
 package com.example.calculator
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
 
 class CalculatorViewModel: ViewModel() {
 
-    val state = mutableStateOf(
+    val _state = MutableStateFlow(
         Display(
             example = "1488x67",
             result = "322"
         )
     )
+    val state
+        get() = _state.asStateFlow()
 
     fun processCommand(command: CalculatorCommand) {
         when (command) {
             CalculatorCommand.Clear -> {
+                _state.value = Display("", "")
                 Log.d("CalculatorViewModel", "Clear")
             }
             CalculatorCommand.Evaluate -> {
