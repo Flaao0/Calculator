@@ -1,6 +1,5 @@
 package com.example.calculator
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -73,7 +72,12 @@ fun Calculator(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Box {
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.SQRT))
+                    }
+            ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "√",
@@ -82,7 +86,12 @@ fun Calculator(
                 )
             }
 
-            Box{
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PI))
+                    }
+            ){
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "π",
@@ -91,7 +100,12 @@ fun Calculator(
                 )
             }
 
-            Box{
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.POWER))
+                    }
+            ){
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "^",
@@ -100,7 +114,12 @@ fun Calculator(
                 )
             }
 
-            Box{
+            Box(
+                modifier = Modifier
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.FACTORIAL))
+                    }
+            ){
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "!",
@@ -120,7 +139,7 @@ fun Calculator(
                     .weight(1f)
                     .aspectRatio(1f)
                     .clickable {
-                        viewModel.processCommand("AC")
+                        viewModel.processCommand(CalculatorCommand.Clear)
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -136,7 +155,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PARENTHESIS))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -151,7 +173,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.PERCENT))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -166,7 +191,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIVIDE))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -185,7 +213,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_7))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -200,7 +231,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_8))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -215,7 +249,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_9))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -230,7 +267,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.MULTIPLY))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -249,7 +289,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_4))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -264,7 +307,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_5))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -279,7 +325,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_6))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -294,7 +343,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.SUBTRACT))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -315,7 +367,7 @@ fun Calculator(
                     .weight(1f)
                     .aspectRatio(1f)
                     .clickable {
-                        viewModel.processCommand("1")
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_1))
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -333,7 +385,7 @@ fun Calculator(
                     .weight(1f)
                     .aspectRatio(1f)
                     .clickable {
-                        viewModel.processCommand("2")
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_2))
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -349,7 +401,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_3))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -364,7 +419,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.ADD))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -383,7 +441,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(2f)
-                    .aspectRatio(2f),
+                    .aspectRatio(2f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_0))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -398,7 +459,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Input(Symbol.DOT))
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -413,7 +477,10 @@ fun Calculator(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.tertiary)
                     .weight(1f)
-                    .aspectRatio(1f),
+                    .aspectRatio(1f)
+                    .clickable {
+                        viewModel.processCommand(CalculatorCommand.Evaluate)
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(

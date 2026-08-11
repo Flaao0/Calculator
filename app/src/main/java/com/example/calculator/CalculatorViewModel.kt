@@ -1,5 +1,6 @@
 package com.example.calculator
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
@@ -12,19 +13,51 @@ class CalculatorViewModel: ViewModel() {
         )
     )
 
-    fun processCommand(command: String) {
+    fun processCommand(command: CalculatorCommand) {
         when (command) {
-            "AC" -> {
-                state.value = Display("", "")
+            CalculatorCommand.Clear -> {
+                Log.d("CalculatorViewModel", "Clear")
             }
-            "1" -> {
-                state.value = Display("1", "")
+            CalculatorCommand.Evaluate -> {
+                Log.d("CalculatorViewModel", "Evaluate")
             }
-            "2" -> {
-                state.value = Display("", "2")
+
+            is CalculatorCommand.Input -> {
+                Log.d("CalculatorViewModel", "$command")
             }
         }
     }
+}
+
+sealed interface CalculatorCommand {
+
+    data object Clear: CalculatorCommand
+    data object Evaluate: CalculatorCommand
+    data class Input(val symbol: Symbol): CalculatorCommand
+}
+
+enum class Symbol {
+    DIGIT_0,
+    DIGIT_1,
+    DIGIT_2,
+    DIGIT_3,
+    DIGIT_4,
+    DIGIT_5,
+    DIGIT_6,
+    DIGIT_7,
+    DIGIT_8,
+    DIGIT_9,
+    ADD,
+    SUBTRACT,
+    MULTIPLY,
+    DIVIDE,
+    PERCENT,
+    POWER,
+    FACTORIAL,
+    SQRT,
+    PI,
+    DOT,
+    PARENTHESIS
 }
 
 data class Display(
