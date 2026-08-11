@@ -57,7 +57,15 @@ fun Calculator(
                         color = MaterialTheme.colorScheme.error,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,
-                        text = currentState.expression
+                        text = currentState.expression,
+                        lineHeight = 36.sp
+                    )
+                    Text(
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = "",
+                        lineHeight = 17.sp
                     )
                 }
 
@@ -68,13 +76,15 @@ fun Calculator(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,
-                        text = currentState.expression
+                        text = currentState.expression,
+                        lineHeight = 36.sp
                     )
                     Text(
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold,
-                        text = currentState.result
+                        text = currentState.result,
+                        lineHeight = 17.sp
                     )
                 }
 
@@ -83,13 +93,15 @@ fun Calculator(
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.SemiBold,
-                        text = currentState.result
+                        text = currentState.result,
+                        lineHeight = 36.sp
                     )
                     Text(
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold,
-                        text = ""
+                        text = "",
+                        lineHeight = 17.sp
                     )
                 }
             }
