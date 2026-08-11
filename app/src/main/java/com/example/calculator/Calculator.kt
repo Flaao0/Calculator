@@ -28,8 +28,7 @@ import com.example.calculator.ui.theme.CalculatorTheme
 
 @Composable
 fun Calculator(
-    modifier: Modifier = Modifier,
-    viewModel: CalculatorViewModel = viewModel()
+    modifier: Modifier = Modifier, viewModel: CalculatorViewModel = viewModel()
 ) {
 
     val state = viewModel.state.collectAsState()
@@ -43,10 +42,7 @@ fun Calculator(
                 .fillMaxWidth()
                 .clip(
                     RoundedCornerShape(
-                        bottomEnd = 40.dp,
-                        bottomStart = 40.dp,
-                        topStart = 0.dp,
-                        topEnd = 0.dp
+                        bottomEnd = 40.dp, bottomStart = 40.dp, topStart = 0.dp, topEnd = 0.dp
                     )
                 )
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -55,30 +51,57 @@ fun Calculator(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End
         ) {
-            Text(
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.SemiBold,
-                text = state.value.example
-            )
-            Text(
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.SemiBold,
-                text = state.value.result
-            )
+            when (val currentState = state.value) {
+                is CalculatorState.Error -> {
+                    Text(
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = currentState.expression
+                    )
+                }
+
+                CalculatorState.Initial -> {}
+
+                is CalculatorState.Input -> {
+                    Text(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = currentState.expression
+                    )
+                    Text(
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = currentState.result
+                    )
+                }
+
+                is CalculatorState.Success -> {
+                    Text(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = currentState.result
+                    )
+                    Text(
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        text = ""
+                    )
+                }
+            }
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround
         ) {
             Box(
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.SQRT))
-                    }
-            ) {
+                    }) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "√",
@@ -88,11 +111,9 @@ fun Calculator(
             }
 
             Box(
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.PI))
-                    }
-            ){
+                    }) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "π",
@@ -102,11 +123,9 @@ fun Calculator(
             }
 
             Box(
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.POWER))
-                    }
-            ){
+                    }) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "^",
@@ -116,11 +135,9 @@ fun Calculator(
             }
 
             Box(
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.FACTORIAL))
-                    }
-            ){
+                    }) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     text = "!",
@@ -141,8 +158,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Clear)
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -159,8 +175,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.PARENTHESIS))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -177,8 +192,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.PERCENT))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -195,8 +209,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIVIDE))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -217,8 +230,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_7))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -235,8 +247,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_8))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -253,8 +264,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_9))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -271,8 +281,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.MULTIPLY))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -293,8 +302,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_4))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -311,8 +319,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_5))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -329,8 +336,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_6))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -347,8 +353,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.SUBTRACT))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -369,8 +374,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_1))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -387,8 +391,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_2))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -405,8 +408,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_3))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -423,8 +425,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.ADD))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -445,8 +446,7 @@ fun Calculator(
                     .aspectRatio(2f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DIGIT_0))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -463,8 +463,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.DOT))
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -481,8 +480,7 @@ fun Calculator(
                     .aspectRatio(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Evaluate)
-                    },
-                contentAlignment = Alignment.Center
+                    }, contentAlignment = Alignment.Center
             ) {
                 Text(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
