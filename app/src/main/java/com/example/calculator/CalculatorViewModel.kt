@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlin.random.Random
+import org.mariuszgromada.math.mxparser.Expression
 
 
 class CalculatorViewModel : ViewModel() {
@@ -25,13 +25,12 @@ class CalculatorViewModel : ViewModel() {
             }
 
             CalculatorCommand.Evaluate -> {
-                val isError = Random.nextBoolean()
-                if (isError) {
-                    _state.value = CalculatorState.Error(expression)
+                val result = evaluate()
+                _state.value = if (result != null) {
+                    CalculatorState.Success(result)
                 } else {
-                    _state.value = CalculatorState.Success(expression)
+                    CalculatorState.Error(expression)
                 }
-                Log.d("CalculatorViewModel", "Evaluate")
             }
 
             is CalculatorCommand.Input -> {
@@ -41,12 +40,22 @@ class CalculatorViewModel : ViewModel() {
                     getCorrectParenthesis(expression)
                 }
                 expression += symbol
+
                 _state.value = CalculatorState.Input(
-                    expression = expression, result = "123"
+                    expression = expression, result = evaluate() ?: ""
                 )
                 Log.d("CalculatorViewModel", "$command")
             }
         }
+    }
+
+    private fun evaluate(): String? {
+        return expression
+            .replace("x", "*")
+            .replace(",", ".")
+            .let { Expression(it) }
+            .calculate()
+            .takeIf { it.isFinite() } ?.toString()
     }
 
     private fun getCorrectParenthesis(currentExpression: String = expression): String {
